@@ -69,4 +69,4 @@ jobs:
             docker build -t ci-cd-sample .
             docker stop ci-cd-sample || true
             docker rm ci-cd-sample || true
-            docker run -d --restart unless-stopped -p 80:80 --name ci-cd-sample ci-cd-sample
+            docker run -d --restart unless-stopped -p 8080:80 --name ci-cd-sample ci-cd-sample
