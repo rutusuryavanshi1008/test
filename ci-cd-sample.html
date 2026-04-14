@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CI/CD Pipeline Documentation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f6f8fa;
+      color: #111;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px;
+      background-color: #ffffff;
+      border: 1px solid #dde2e6;
+      box-shadow: 0 2px 8px rgba(20, 30, 40, 0.08);
+    }
+    h1 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
+    h2 {
+      color: #34495e;
+      margin-bottom: 6px;
+    }
+    p {
+      margin: 16px 0;
+    }
+    .section {
+      margin-bottom: 32px;
+    }
+    .code-block {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: #f4f7fb;
+      border: 1px solid #d8e1ea;
+      border-radius: 6px;
+      font-family: Consolas, "Courier New", monospace;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #2d3a4b;
+    }
+    .note {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 12px 16px;
+      background: #f0f7e8;
+      border-left: 4px solid #4caf50;
+      color: #2f4f2f;
+    }
+    .list {
+      margin: 12px 0 0 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>CI/CD Pipeline Documentation</h1>
+    <p>This sample documentation describes a simple continuous integration / continuous deployment pipeline for a web application. It includes pipeline stages, branching strategy, tools, and deployment flow.</p>
+
+    <div class="section">
+      <h2>1. Overview</h2>
+      <p>The pipeline automates build, test, and deploy steps. It ensures code quality, catches regressions early, and deploys changes to staging or production environments.</p>
+      <div class="note">Use this document as a baseline. Adjust stages and tools based on your project and infrastructure.</div>
+    </div>
+
+    <div class="section">
+      <h2>2. Branching Strategy</h2>
+      <p>Recommended branch model:</p>
+      <ul class="list">
+        <li><strong>main</strong>: Production-ready code.</li>
+        <li><strong>develop</strong>: Integration branch for features and bug fixes.</li>
+        <li><strong>feature/*</strong>: New feature branches.</li>
+        <li><strong>hotfix/*</strong>: Urgent production fixes.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>3. Pipeline Stages</h2>
+      <p>A typical CI/CD pipeline includes these stages:</p>
+      <ul class="list">
+        <li><strong>Checkout</strong>: Pull source from repository.</li>
+        <li><strong>Install dependencies</strong>: Install packages, libraries, or modules.</li>
+        <li><strong>Build</strong>: Compile code, bundle assets, or create artifacts.</li>
+        <li><strong>Test</strong>: Run unit tests, integration tests, and linting.</li>
+        <li><strong>Deploy</strong>: Deploy to staging or production after passing tests.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>4. Sample Pipeline Configuration</h2>
+      <p>Below is a generic YAML example for a CI/CD pipeline (GitHub Actions style):</p>
+      <div class="code-block">name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build app
+        run: npm run build
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to production
+        run: echo "Deploy step placeholder"
+</div>
+    </div>
+
+    <div class="section">
+      <h2>5. Recommended Tools</h2>
+      <ul class="list">
+        <li><strong>Version control:</strong> Git</li>
+        <li><strong>CI/CD platform:</strong> GitHub Actions, GitLab CI, Azure Pipelines, Jenkins</li>
+        <li><strong>Testing:</strong> Jest, Cypress, Playwright</li>
+        <li><strong>Build:</strong> Webpack, Vite, npm scripts</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>6. Deployment Targets</h2>
+      <ul class="list">
+        <li>Staging environment for review and verification</li>
+        <li>Production environment for live releases</li>
+      </ul>
+      <p>Use environment-specific variables and secrets managed in the CI/CD platform.</p>
+    </div>
+
+    <div class="section">
+      <h2>7. Best Practices</h2>
+      <ul class="list">
+        <li>Keep pipeline jobs fast and deterministic.</li>
+        <li>Run tests on every pull request before merge.</li>
+        <li>Use versioned pipeline configuration.</li>
+        <li>Use secrets for credentials, API keys, and deploy tokens.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
